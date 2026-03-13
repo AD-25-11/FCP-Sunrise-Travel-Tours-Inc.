@@ -2,22 +2,13 @@ const continents = {'Asia': ['Japan', 'China', 'Philippines', 'Thailand', 'Singa
 const continentPage = {'Asia': 'asia.html', 'Europe': 'europe.html', 'Africa': 'africa.html', 'North America': 'north-america.html', 'South America': 'south-america.html', 'Australia / Oceania': 'australia-oceania.html', 'Antarctica': 'antarctica.html'};
 
 const unsplashFallback = 'https://source.unsplash.com/1200x800/?travel,landscape';
-const destinationImageKeywords = {
-  'Japan': 'Japan,Tokyo,travel',
-  'China': 'Great Wall of China,China,travel',
-  'Philippines': 'Boracay,Philippines,travel',
-  'Singapore': 'Singapore skyline,travel',
-  'Thailand': 'Thailand temple,travel',
-  'South Korea': 'Seoul skyline,travel',
-  'Vietnam': 'Ha Long Bay,Vietnam,travel',
-  'Indonesia': 'Bali Indonesia,travel',
-  'Malaysia': 'Petronas Towers,Malaysia,travel'
-};
 
 function slugify(v){ return v.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); }
 function countryUrl(c){ return `${slugify(c)}.html`; }
-function unsplashUrl(query){ return `https://source.unsplash.com/1200x800/?${encodeURIComponent(query)}`; }
-function baseCountryName(value){ return (value || '').replace(/\s+Travel\s+Guide$/i, '').trim(); }
+function countryImage(country){
+  return `https://source.unsplash.com/1200x800/?${country},landmark,travel`;
+}
+function baseCountryName(value){ return (value || '').replace(/\s+Travel\s+Guide$/i, '').replace(/\s+Explorer$/i, '').trim(); }
 
 function applyImageFallback(img){
   if(!img || img.dataset.fcpFallbackApplied === '1') return;
@@ -40,8 +31,7 @@ function initDynamicDestinationImages(){
     if(!img) return;
     const countryName = (card.querySelector('h3')?.textContent || img.alt || '').trim();
     if(!countryName) return;
-    const keyword = destinationImageKeywords[countryName] || `${countryName},landmark,travel`;
-    img.src = unsplashUrl(keyword);
+    img.src = countryImage(countryName);
     img.alt = countryName;
   });
 
@@ -49,10 +39,9 @@ function initDynamicDestinationImages(){
   document.querySelectorAll('.spot-card').forEach((card)=>{
     const img = card.querySelector('img');
     if(!img) return;
-    const landmark = (card.querySelector('h3')?.textContent || img.alt || pageCountry || 'travel destination').trim();
-    const keyword = pageCountry ? `${pageCountry},${landmark},travel` : `${landmark},landmark,travel`;
-    img.src = unsplashUrl(keyword);
-    img.alt = landmark;
+    const countryName = pageCountry || (card.querySelector('p strong')?.nextSibling?.textContent || '').trim() || (card.querySelector('h3')?.textContent || '').trim();
+    if(!countryName) return;
+    img.src = countryImage(countryName);
   });
 }
 
