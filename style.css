@@ -8,18 +8,25 @@ a{text-decoration:none;color:inherit}
 .brand{display:flex;align-items:center;gap:.6rem}.brand img{width:48px;height:48px;border-radius:50%;border:2px solid var(--accent);object-fit:cover}
 .brand strong{display:block;font-size:.92rem}.brand span{font-size:.72rem;opacity:.82}
 .main-nav{display:flex;gap:.75rem;flex-wrap:wrap}.main-nav a{padding:.45rem .7rem;border-radius:999px}.main-nav a:hover,.main-nav a.active{background:rgba(20,152,204,.3)}
-.hero{min-height:88vh;position:relative;display:grid;place-items:center;overflow:hidden}.hero video,.hero .overlay{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.hero .overlay{background:linear-gradient(130deg,rgba(2,10,16,.8),rgba(7,30,45,.55))}
-.hero-content{position:relative;z-index:1;text-align:center}.hero h1{font-size:clamp(2rem,5vw,3.4rem);margin:1rem 0 .6rem}.hero p{max-width:800px;margin:0 auto}
+.hero{min-height:88vh;position:relative;display:grid;place-items:center;overflow:hidden}.hero video,.hero .overlay,.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.hero .overlay{background:linear-gradient(130deg,rgba(2,10,16,.8),rgba(7,30,45,.55))}
+.hero-content{position:relative;z-index:2;text-align:center}.hero h1{font-size:clamp(2rem,5vw,3.4rem);margin:1rem 0 .6rem}.hero p{max-width:800px;margin:0 auto}
+.air-routes{position:absolute;inset:0;z-index:1;pointer-events:none}.air-routes span{position:absolute;width:34%;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.7;animation:fly 5s linear infinite}
+.air-routes span:nth-child(1){top:30%;left:4%}.air-routes span:nth-child(2){top:40%;left:52%;animation-delay:.8s}.air-routes span:nth-child(3){top:52%;left:18%;animation-delay:1.4s}
+.air-routes span:nth-child(4){top:64%;left:58%;animation-delay:2.1s}.air-routes span:nth-child(5){top:72%;left:10%;animation-delay:2.9s}.air-routes span:nth-child(6){top:22%;left:45%;animation-delay:3.6s}.air-routes span:nth-child(7){top:80%;left:50%;animation-delay:4.3s}
+@keyframes fly{0%{transform:translateX(-90px);opacity:.2}50%{opacity:.9}100%{transform:translateX(120px);opacity:.2}}
 .actions{margin-top:1.2rem;display:flex;justify-content:center;gap:.7rem;flex-wrap:wrap}
 .btn{border:none;padding:.8rem 1.2rem;border-radius:999px;font-weight:700;cursor:pointer}.btn-primary{background:linear-gradient(90deg,var(--primary),#34b9eb);color:#fff}.btn-secondary{background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff}
 .grid{display:grid;gap:1rem}.grid-3{grid-template-columns:repeat(3,1fr)}.grid-2{grid-template-columns:repeat(2,1fr)}
-.card{padding:1rem}.cards-country{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.card{padding:1rem}.cards-country{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 .country-card,.spot-card{background:rgba(5,25,38,.8);border:1px solid rgba(255,255,255,.15);border-radius:12px;overflow:hidden}
-.country-card img,.spot-card img{width:100%;height:150px;object-fit:cover;display:block}.country-card div,.spot-card div{padding:.7rem}
+.country-card img,.spot-card img{width:100%;height:180px;object-fit:cover;display:block}.country-card div,.spot-card div{padding:.8rem}
 #globeViz{height:min(70vh,620px);border-radius:12px;overflow:hidden;background:radial-gradient(circle,#001122,#000011)}
 .small{font-size:.86rem;opacity:.86}
 form label{display:grid;gap:.35rem}.field-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem}
 input,textarea{padding:.7rem;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.25);color:#fff}
 .music-toggle{position:fixed;right:1rem;bottom:1rem;z-index:30;width:52px;height:52px;border:none;border-radius:50%;background:linear-gradient(140deg,#ffdf00,#ffd12f);cursor:pointer}
+.centered-action{margin-top:1.2rem;display:flex;justify-content:center}
 footer{padding:1rem 0 2rem;text-align:center;color:#cdefff}
-@media(max-width:900px){.grid-3,.grid-2{grid-template-columns:1fr}.field-grid{grid-template-columns:1fr}.brand span{display:none}}
+@media(max-width:900px){.grid-3,.grid-2,.field-grid{grid-template-columns:1fr}.brand span{display:none}.hero{min-height:72vh}}
+
+.branch-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}.branch-card h3{margin-top:.2rem;color:var(--accent)}.branch-card p{line-height:1.6}
