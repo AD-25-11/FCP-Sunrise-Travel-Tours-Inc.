@@ -16,7 +16,7 @@ a{text-decoration:none;color:inherit}
 .card{padding:1rem}.cards-country{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
 .country-card,.spot-card{background:rgba(5,25,38,.8);border:1px solid rgba(255,255,255,.15);border-radius:12px;overflow:hidden}
 .country-card img,.spot-card img{width:100%;height:150px;object-fit:cover;display:block}.country-card div,.spot-card div{padding:.7rem}
-#globeViz{height:min(70vh,620px);border-radius:12px;overflow:hidden;background:radial-gradient(circle,#001122,#000011)}
+#globeViz{height:min(70vh,620px);border-radius:12px;overflow:hidden}
 .small{font-size:.86rem;opacity:.86}
 form label{display:grid;gap:.35rem}.field-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem}
 input,textarea{padding:.7rem;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.25);color:#fff}
