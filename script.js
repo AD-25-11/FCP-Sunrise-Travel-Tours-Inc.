@@ -1,8 +1,60 @@
 const continents = {'Asia': ['Japan', 'China', 'Philippines', 'Thailand', 'Singapore', 'South Korea', 'Vietnam', 'Malaysia', 'Indonesia', 'India', 'United Arab Emirates', 'Turkey', 'Qatar', 'Saudi Arabia', 'Nepal', 'Sri Lanka', 'Maldives', 'Kazakhstan', 'Pakistan', 'Bangladesh', 'Jordan', 'Israel', 'Lebanon', 'Oman', 'Kuwait'], 'Europe': ['France', 'Italy', 'Spain', 'Germany', 'United Kingdom', 'Switzerland', 'Netherlands', 'Greece', 'Portugal', 'Austria', 'Belgium', 'Croatia', 'Norway', 'Sweden', 'Denmark', 'Finland', 'Ireland', 'Poland', 'Czech Republic', 'Hungary'], 'North America': ['United States', 'Canada', 'Mexico', 'Costa Rica', 'Jamaica', 'Panama', 'Bahamas', 'Cuba', 'Dominican Republic', 'Guatemala', 'Honduras', 'El Salvador', 'Nicaragua'], 'South America': ['Brazil', 'Argentina', 'Peru', 'Chile', 'Colombia', 'Ecuador', 'Bolivia', 'Uruguay', 'Paraguay', 'Venezuela'], 'Africa': ['Egypt', 'Morocco', 'Kenya', 'South Africa', 'Tanzania', 'Botswana', 'Rwanda', 'Uganda', 'Ethiopia', 'Ghana', 'Nigeria', 'Madagascar', 'Namibia', 'Zimbabwe'], 'Australia / Oceania': ['Australia', 'New Zealand', 'Fiji', 'Papua New Guinea', 'Samoa', 'Tonga', 'Vanuatu', 'Solomon Islands', 'Palau', 'Micronesia'], 'Antarctica': ['McMurdo Station', 'South Pole Station', 'Paradise Bay', 'Deception Island', 'Lemaire Channel', 'Neko Harbor']};
 const continentPage = {'Asia': 'asia.html', 'Europe': 'europe.html', 'Africa': 'africa.html', 'North America': 'north-america.html', 'South America': 'south-america.html', 'Australia / Oceania': 'australia-oceania.html', 'Antarctica': 'antarctica.html'};
 
+const unsplashFallback = 'https://source.unsplash.com/1200x800/?travel,landscape';
+const destinationImageKeywords = {
+  'Japan': 'Japan,Tokyo,travel',
+  'China': 'Great Wall of China,China,travel',
+  'Philippines': 'Boracay,Philippines,travel',
+  'Singapore': 'Singapore skyline,travel',
+  'Thailand': 'Thailand temple,travel',
+  'South Korea': 'Seoul skyline,travel',
+  'Vietnam': 'Ha Long Bay,Vietnam,travel',
+  'Indonesia': 'Bali Indonesia,travel',
+  'Malaysia': 'Petronas Towers,Malaysia,travel'
+};
+
 function slugify(v){ return v.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); }
 function countryUrl(c){ return `${slugify(c)}.html`; }
+function unsplashUrl(query){ return `https://source.unsplash.com/1200x800/?${encodeURIComponent(query)}`; }
+function baseCountryName(value){ return (value || '').replace(/\s+Travel\s+Guide$/i, '').trim(); }
+
+function applyImageFallback(img){
+  if(!img || img.dataset.fcpFallbackApplied === '1') return;
+  img.dataset.fcpFallbackApplied = '1';
+  img.addEventListener('error', () => {
+    if(img.dataset.fcpFallbackTriggered === '1') return;
+    img.dataset.fcpFallbackTriggered = '1';
+    img.src = unsplashFallback;
+  });
+}
+
+function initDynamicDestinationImages(){
+  document.querySelectorAll('img').forEach((img)=>{
+    applyImageFallback(img);
+    if(!img.getAttribute('alt')) img.setAttribute('alt', 'FCP Sunrise travel destination image');
+  });
+
+  document.querySelectorAll('.country-card').forEach((card)=>{
+    const img = card.querySelector('img');
+    if(!img) return;
+    const countryName = (card.querySelector('h3')?.textContent || img.alt || '').trim();
+    if(!countryName) return;
+    const keyword = destinationImageKeywords[countryName] || `${countryName},landmark,travel`;
+    img.src = unsplashUrl(keyword);
+    img.alt = countryName;
+  });
+
+  const pageCountry = baseCountryName(document.querySelector('main h1')?.textContent || '');
+  document.querySelectorAll('.spot-card').forEach((card)=>{
+    const img = card.querySelector('img');
+    if(!img) return;
+    const landmark = (card.querySelector('h3')?.textContent || img.alt || pageCountry || 'travel destination').trim();
+    const keyword = pageCountry ? `${pageCountry},${landmark},travel` : `${landmark},landmark,travel`;
+    img.src = unsplashUrl(keyword);
+    img.alt = landmark;
+  });
+}
 
 function initMusic(){
   const audio=document.getElementById('theme-song');
@@ -58,4 +110,4 @@ async function initGlobe(){
   window.addEventListener('resize',()=>globe.width(el.clientWidth).height(el.clientHeight));
 }
 
-window.addEventListener('load', () => { initMusic(); initGlobe(); });
+window.addEventListener('load', () => { initDynamicDestinationImages(); initMusic(); initGlobe(); });
