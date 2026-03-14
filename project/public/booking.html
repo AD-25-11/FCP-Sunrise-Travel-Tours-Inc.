@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FCP Sunrise Travel | Booking Request</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Booking Request Form</h1>
+    <section class="card">
+      <form id="bookingForm" class="grid grid-2">
+        <div><label>Name</label><input name="name" required /></div>
+        <div><label>Email</label><input type="email" name="email" required /></div>
+        <div><label>Phone</label><input name="phone" required /></div>
+        <div><label>Destination</label><input name="destination" required /></div>
+        <div><label>Travel Date</label><input type="date" name="travelDate" required /></div>
+        <div><label>Number of Travelers</label><input type="number" min="1" name="travelers" required /></div>
+        <div class="grid" style="grid-column: 1/-1;"><label>Special Requests</label><textarea name="specialRequests"></textarea></div>
+        <button type="submit">Submit Booking</button>
+      </form>
+      <p id="bookingMessage" class="message"></p>
+      <p class="small">Admin? <a href="/admin-login.html">Sign in to dashboard</a>.</p>
+    </section>
+  </main>
+  <script src="/script.js"></script>
+</body>
+</html>
